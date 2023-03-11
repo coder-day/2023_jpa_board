@@ -32,7 +32,7 @@ public class ArticleController {
 
     @RequestMapping("doModify")
     @ResponseBody
-    public Article showModify(long id, String title, String body){
+    public Article doModify(long id, String title, String body){
         Article article = articleRepository.findById(id).get();
 
             if( title != null) {
@@ -48,4 +48,13 @@ public class ArticleController {
             return article;
 
     }
-}
+
+    @RequestMapping("doDelete")
+    @ResponseBody
+    public String doDelete(long id){
+        articleRepository.deleteById(id);
+        return "%d번 게시물이 삭제 되었습니다.".formatted(id);
+    }
+
+    }
+
