@@ -26,7 +26,26 @@ public class ArticleController {
     @RequestMapping("detail")
     @ResponseBody
     public Article showDetail(long id){
-        Optional<Article> article = articleRepository.findById(2L);
+        Optional<Article> article = articleRepository.findById(id);
         return article.get();
+    }
+
+    @RequestMapping("doModify")
+    @ResponseBody
+    public Article showModify(long id, String title, String body){
+        Article article = articleRepository.findById(id).get();
+
+            if( title != null) {
+                article.setTitle(title);
+            }
+
+            if( body != null) {
+                article.setBody(body);
+            }
+
+           articleRepository.save(article);
+
+            return article;
+
     }
 }
