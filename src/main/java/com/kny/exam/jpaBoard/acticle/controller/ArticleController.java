@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -20,5 +21,12 @@ public class ArticleController {
     @ResponseBody
     public List<Article> showlist(){
         return articleRepository.findAll();
+    }
+
+    @RequestMapping("detail")
+    @ResponseBody
+    public Article showDetail(long id){
+        Optional<Article> article = articleRepository.findById(2L);
+        return article.get();
     }
 }
