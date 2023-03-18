@@ -21,6 +21,8 @@ public class UserController {
     @RequestMapping("doJoin")
     @ResponseBody
     public String doJoin(String name, String email, String password) {
+
+
         if( name == null || name.trim().length() == 0) {
             return "이름을 입력해주세요.";
         }
@@ -30,6 +32,13 @@ public class UserController {
             return "이메일을 입력해주세요.";
         }
         email = email.trim();
+
+        boolean existsByEmail = userRepository.existsByEmail(email);
+
+        if (existsByEmail) {
+            return "입력 하신 %s은 이미 사용중인 이메일 입니다".formatted(email);
+        }
+
 
         if( password == null || password.trim().length() == 0) {
             return "패스워드를 입력해주세요.";
