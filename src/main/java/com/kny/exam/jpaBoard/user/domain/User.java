@@ -1,5 +1,6 @@
 package com.kny.exam.jpaBoard.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class User {
     private LocalDateTime updateDate;
     private String email;
     private String name;
+    @JsonIgnore
     private String password;
 
 }

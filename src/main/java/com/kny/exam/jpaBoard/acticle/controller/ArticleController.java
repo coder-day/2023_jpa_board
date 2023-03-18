@@ -2,6 +2,8 @@ package com.kny.exam.jpaBoard.acticle.controller;
 
 import com.kny.exam.jpaBoard.acticle.dao.ArticleRepository;
 import com.kny.exam.jpaBoard.acticle.domain.Article;
+import com.kny.exam.jpaBoard.user.dao.UserRepository;
+import com.kny.exam.jpaBoard.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
+    private UserRepository userRepository;
+
     @RequestMapping("list")
     @ResponseBody
     public List<Article> showlist(){
@@ -68,6 +72,9 @@ public class ArticleController {
         article.setUpdateDate(LocalDateTime.now());
         article.setTitle(title);
         article.setBody(body);
+
+        User user = userRepository.findById(3L).get();
+        article.setUser(user);
 
         articleRepository.save(article);
 
