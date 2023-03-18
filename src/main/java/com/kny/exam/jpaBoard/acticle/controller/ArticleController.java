@@ -73,7 +73,7 @@ public class ArticleController {
         article.setTitle(title);
         article.setBody(body);
 
-        User user = userRepository.findById(3L).get();
+        User user = userRepository.findById(2L).get();
         article.setUser(user);
 
         articleRepository.save(article);
