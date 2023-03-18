@@ -18,6 +18,34 @@ public class UserController {
     private UserRepository userRepository;
 
 
+
+    @RequestMapping("doLogin")
+    @ResponseBody
+    public String doLogin(String email, String password) {
+
+
+        if (email == null || email.trim().length() == 0) {
+            return "이메일을 입력해주세요.";
+        }
+        email = email.trim();
+
+        User user = userRepository.findByEmail(email).get();
+
+        if ( user == null ) {
+            return "회원이 존재 하지 않습니다.";
+        }
+
+
+        System.out.println("user.getPassword() : " + user.getPassword());
+        System.out.println("password : " + password);
+
+        if ( user.getPassword().equals(password) == false ) {
+            return "패스워드가 틀립니다.";
+        }
+
+        return "%s 님 환영합니다.".formatted(user.getName());
+    }
+
     @RequestMapping("doJoin")
     @ResponseBody
     public String doJoin(String name, String email, String password) {
