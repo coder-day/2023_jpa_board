@@ -1,5 +1,6 @@
 package com.kny.exam.jpaBoard.acticle.controller;
 
+import org.springframework.ui.Model;
 import com.kny.exam.jpaBoard.acticle.dao.ArticleRepository;
 import com.kny.exam.jpaBoard.acticle.domain.Article;
 import com.kny.exam.jpaBoard.user.dao.UserRepository;
@@ -29,7 +30,9 @@ public class ArticleController {
     }
 
     @RequestMapping("list")
-    public String showlist(){
+    public String showlist(Model model){
+        model.addAttribute("age", 44);
+        model.addAttribute("name", "폴");
         return "/usr/article/list";
 
     }
