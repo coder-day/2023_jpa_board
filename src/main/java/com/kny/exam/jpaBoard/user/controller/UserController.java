@@ -5,6 +5,7 @@ import com.kny.exam.jpaBoard.user.domain.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +47,11 @@ public class UserController {
             return "패스워드가 틀립니다.";
         }
 
-        Cookie cookie = new Cookie("loginedUserId", user.get().getId() + "");
-        resp.addCookie(cookie);
+        HttpSession session = req.getSession();
+        session.setAttribute("loginedUsrid", user.get().getId());
+
+        //Cookie cookie = new Cookie("loginedUserId", user.get().getId() + "");
+        //resp.addCookie(cookie);
 
         return "%s 님 환영합니다.".formatted(user.get().getName());
     }
