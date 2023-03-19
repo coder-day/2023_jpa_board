@@ -22,11 +22,32 @@ public class ArticleController {
     private ArticleRepository articleRepository;
     private UserRepository userRepository;
 
-    @RequestMapping("list")
+    @RequestMapping("list2")
     @ResponseBody
-    public List<Article> showlist(){
+    public List<Article> showlist2(){
         return articleRepository.findAll();
     }
+
+    @RequestMapping("list")
+    @ResponseBody
+    public String showlist(){
+        List<Article> articles = articleRepository.findAll();
+
+        String html = "";
+
+        html += "<ul>";
+
+        for ( Article article : articles ) {
+
+            html += "<li>";
+            html += "%d번 / %s / %s".formatted(article.getId(), article.getTitle(), article.getBody());
+            html += "</li>";
+        }
+        html += "</ul>";
+
+        return html;
+    }
+
 
     @RequestMapping("detail")
     @ResponseBody

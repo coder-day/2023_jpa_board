@@ -2,7 +2,6 @@ package com.kny.exam.jpaBoard.user.controller;
 
 import com.kny.exam.jpaBoard.user.dao.UserRepository;
 import com.kny.exam.jpaBoard.user.domain.User;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -97,33 +96,56 @@ public class UserController {
 
     @RequestMapping("me")
     @ResponseBody
-    public User showMe(HttpServletRequest req) {
+    public User showMe(HttpSession session) {
         boolean isLogined = false;
         long loginedUserId = 0;
 
-        Cookie[] cookies = req.getCookies();
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("loginedUserId")) {
-                    isLogined = true;
-                    loginedUserId = Long.parseLong(cookie.getValue());
-                }
-            }
+        if ( session.getAttribute("loginedUserId") != null ) {
+            isLogined = true;
+            loginedUserId = (long) session.getAttribute("loginedUserId");
         }
 
-        if (isLogined == false) {
+//***        Cookie[] cookies = req.getCookies();
+
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//               if (cookie.getName().equals("loginedUserId")) {
+//                    isLogined = true;
+//                    loginedUserId = Long.parseLong(cookie.getValue());
+//                }
+//            }
+//        }
+
+        if ( isLogined == false ) {
             return null;
         }
 
         Optional<User> user = userRepository.findById(loginedUserId);
 
-        if (user.isEmpty()) {
+        if ( user.isEmpty() ) {
             return null;
         }
 
         return user.get();
     }
+
+    @RequestMapping("doLogout")
+    @ResponseBody
+    public String doLogout(HttpSession session) {
+        boolean isLogined = false;
+        if ( session.getAttribute("loginedUserId") != null ) {
+            isLogined = true;
+        }
+
+        if ( isLogined == false) {
+            return "이미 로그 아웃 되었습니다.";
+        }
+
+        session.removeAttribute("loginedUserId");
+        return "로그아웃 되었습니다.";
+
+    }
+
 
 }
 
