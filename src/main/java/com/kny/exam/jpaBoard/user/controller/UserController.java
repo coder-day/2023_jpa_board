@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @Controller
@@ -29,21 +30,21 @@ public class UserController {
         }
         email = email.trim();
 
-        User user = userRepository.findByEmail(email).get();
-
-        if ( user == null ) {
+        //User user = userRepository.findByEmail(email).orElse(null);// 첫번째 방법
+        Optional<User> user = userRepository.findByEmail(email);
+        if ( user.isEmpty() ) {
             return "회원이 존재 하지 않습니다.";
         }
 
 
-        System.out.println("user.getPassword() : " + user.getPassword());
+        System.out.println("user.getPassword() : " + user.get().getPassword());
         System.out.println("password : " + password);
 
-        if ( user.getPassword().equals(password) == false ) {
+        if ( user.get().getPassword().equals(password) == false ) {
             return "패스워드가 틀립니다.";
         }
 
-        return "%s 님 환영합니다.".formatted(user.getName());
+        return "%s 님 환영합니다.".formatted(user.get().getName());
     }
 
     @RequestMapping("doJoin")
